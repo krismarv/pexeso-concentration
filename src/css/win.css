@@ -1,0 +1,21 @@
+.win iframe {
+    width: 100%;
+    height: 70vh;
+    position: absolute;
+    top: 10%;
+    border: 0;
+}
+.win {
+    position:absolute
+}
+#attribution-block {
+    display:none
+}
+#win-text {
+    position: absolute;
+    top: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
