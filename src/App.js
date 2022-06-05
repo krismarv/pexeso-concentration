@@ -126,16 +126,21 @@ function newMove () {
 
   return (
     <>
+      <div className="nav">
+      <h1>P A I R S</h1>
       <NewGame
         startGame={startGame}
         changeFieldLength={changeFieldLength}
         formFieldLength={formFieldLength}
         />
-      <NewMove 
-        played={played}
-        newMove={newMove}
-        score={score}
-      />
+      </div>
+      <div className="ribbon">
+        <NewMove 
+          played={played}
+          newMove={newMove}
+          score={score}
+        />
+      </div>
       {images.length ? <Board 
         images={images}
         fieldLength={fieldLength}

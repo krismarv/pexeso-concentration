@@ -6,9 +6,11 @@
     border: 0;
 }
 .win {
-    position:absolute
+    position:absolute;
+    width:100vw;
+    top:0
 }
-#attribution-block {
+#attribution_block {
     display:none
 }
 #win-text {
@@ -18,4 +20,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+#win-message {
+    font-size:4rem;
+    font-weight:800
 }

@@ -1,9 +1,9 @@
 .board {
     display:grid;
-    width:80vh;
-    height:80vh;
+    width:70vh;
+    height:70vh;
     margin:0 auto;
-    padding:5%;
+    padding:2.5%;
     background-color:#EFECE6;
     border-radius:20px;
     grid-gap:2%
