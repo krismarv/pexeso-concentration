@@ -29,7 +29,8 @@ button {
   border-radius: 10px;
   color: white;
   box-shadow: 0 0 4px 0px #00000085;
-  font-family:Chivo
+  font-family:Chivo;
+  cursor:pointer
 }
 input {
   padding: 1.5%;
@@ -49,4 +50,11 @@ input {
 .nav h1 {
   color:#444444;
   font-size:4rem
+}
+.ribbon {
+  display: flex;
+  background-color: rgb(0 94 120);
+    color: white;
+    justify-content: center;
+    margin-bottom: 1%;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/board.css'
+import refresh from '../refresh.png'
 
 export default function Board ( props) {
     
@@ -27,8 +28,13 @@ export default function Board ( props) {
         }
       
     return (
-        <div className='board' style={boardStyle}>
-            {imageElements}
-        </div>
+        <>
+        {props.played ? <div className="new-move" onClick={props.newMove}>
+            <img src={refresh}></img>
+        </div> : ''}
+            <div className='board' style={boardStyle}>
+                {imageElements}
+            </div>
+        </>
     )
 }

@@ -25,6 +25,11 @@ function App() {
   function startGame() {
     setFieldLength(formFieldLength);
     setSendingRequest(old => !old);
+    let cards = document.querySelectorAll(".card");
+    setScore(0)
+    cards.forEach((card)=>{
+      card.classList.remove("played")
+    })
   }
   
   // initialize image data
@@ -75,9 +80,20 @@ function App() {
     React.useLayoutEffect(()=>{
       console.log(score);
       console.log("clicked changes")
-      let keysTrue = Object.keys(clicked).filter((k)=> clicked[k]).map((item)=> parseInt(item.replace("card-", "")));
+      let classesTrue = Object.keys(clicked).filter((k)=> clicked[k])
+      let keysTrue = classesTrue.map((item)=> parseInt(item.replace("card-", "")));
       if (images[keysTrue[0]]===images[keysTrue[1]]&&images[keysTrue[0]]) {
-        setScore(score +1)
+        setScore(score +1);
+        if ((score!==Math.pow(fieldLength, 2)/2)) {
+          classesTrue.forEach((cl) => {
+            let element = document.getElementById(cl);
+            element.classList.add("played")
+            // element.style.backgroundImage="none";
+            // element.style.boxShadow="none";
+            // element.style.pointerEvents="none";
+            // element.setAttribute.onClick=""
+          })
+        }
       }
     }, [clicks])
 
@@ -101,25 +117,13 @@ function App() {
       } else {}
 }
 
-// React.useEffect(()=>{
-//   console.log(played)
-//   if (played) {
-//     setTimeout(()=>{
-//       setClicks(1);
-//       setClicked(clicked => {
-//         Object.keys(clicked).forEach(key => clicked[key] = false)
-//         console.log("clicked", clicked)
-//         return clicked
-//       }) 
-//       }, 4000);
-//   }
-// }, [played])
 
 function newMove () {
   setClicks(1);
   setClicked(clicked => {
     Object.keys(clicked).forEach(key => clicked[key] = false)
     console.log("clicked", clicked)
+    setPlayed(!played)
     return clicked
   }) 
 }
@@ -136,8 +140,6 @@ function newMove () {
       </div>
       <div className="ribbon">
         <NewMove 
-          played={played}
-          newMove={newMove}
           score={score}
         />
       </div>
@@ -146,6 +148,8 @@ function newMove () {
         fieldLength={fieldLength}
         clicked={clicked}
         flipCard={flipCard}
+        played={played}
+        newMove={newMove}
         /> 
         : ''}
       {win ? <Win/> : ""}

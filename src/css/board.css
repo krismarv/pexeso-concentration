@@ -21,4 +21,27 @@
     border-radius:5px;
     box-shadow:0px 0px 5px gray;
     background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(0,152,155,1) 0.1%, rgba(0,94,120,1) 94.2% );
+    cursor:pointer
   }
+.card.played {
+  background-image: none;
+  box-shadow: none;
+  pointer-events: none
+}
+.new-move {
+  width: 90vh;
+  height: 90vh;
+  position: absolute;
+  z-index: 100;
+  left: 50%;
+  margin-left: -45vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  cursor:pointer
+}
+.new-move img {
+  width: 50%;
+  height: 50%;
+  opacity: 80%;
+}
