@@ -25,12 +25,14 @@ button {
   background-color: #65AEC1;
   border: none;
   font-size: .9rem;
-  padding: 5%;
+  padding: 15px;
   border-radius: 10px;
   color: white;
   box-shadow: 0 0 4px 0px #00000085;
   font-family:Chivo;
-  cursor:pointer
+  cursor:pointer;
+  display: flex;
+  align-items: center;
 }
 input {
   padding: 1.5%;
@@ -58,3 +60,6 @@ input {
     justify-content: center;
     margin-bottom: 1%;
 }
+.player.active {
+  text-shadow:0 0 50px yellow, 0 0 20px orange, 0 0 10px white
+ }

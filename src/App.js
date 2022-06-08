@@ -3,7 +3,8 @@ import React from 'react'
 import NewGame from './components/NewGame';
 import Board from './components/Board';
 import NewMove from './components/NewMove';
-import Win from './components/Win'
+import Win from './components/Win';
+import Players from './components/Players'
 
 function App() {
 
@@ -14,8 +15,10 @@ function App() {
   const [clicked, setClicked] = React.useState({});
   const [clicks, setClicks] = React.useState(1);
   const [played, setPlayed] = React.useState(false);
-  const [score, setScore] = React.useState(0)
-  const [win, setWin] = React.useState(false)
+  const [score, setScore] = React.useState(0);
+  const [win, setWin] = React.useState(false);
+  const [players, setPlayers] = React.useState(1);
+  const [currentPlayer, setCurrentPlayer] = React.useState("player1")
 
   function changeFieldLength(event){
     setFormFieldLength(event.target.value)
@@ -78,8 +81,6 @@ function App() {
 
     // increment score on clicked change
     React.useLayoutEffect(()=>{
-      console.log(score);
-      console.log("clicked changes")
       let classesTrue = Object.keys(clicked).filter((k)=> clicked[k])
       let keysTrue = classesTrue.map((item)=> parseInt(item.replace("card-", "")));
       if (images[keysTrue[0]]===images[keysTrue[1]]&&images[keysTrue[0]]) {
@@ -88,10 +89,6 @@ function App() {
           classesTrue.forEach((cl) => {
             let element = document.getElementById(cl);
             element.classList.add("played")
-            // element.style.backgroundImage="none";
-            // element.style.boxShadow="none";
-            // element.style.pointerEvents="none";
-            // element.setAttribute.onClick=""
           })
         }
       }
@@ -117,19 +114,48 @@ function App() {
       } else {}
 }
 
-
+// reset moves after 1 game
 function newMove () {
   setClicks(1);
   setClicked(clicked => {
     Object.keys(clicked).forEach(key => clicked[key] = false)
-    console.log("clicked", clicked)
     setPlayed(!played)
     return clicked
   }) 
+    if (players === 2) {
+      console.log("yep")
+      setCurrentPlayer(player => {
+        console.log(player)
+        if (player==="player1") {
+          console.log("player is 1")
+          return "player2"
+        }
+          else {
+            return "player1"
+          } 
+      })
+      console.log(currentPlayer)
+    }
 }
 
+function numberOfPlayers (event) {
+  let screen = document.querySelector(".players-screen");
+  screen.style.display = "none";
+  console.log(players)
+}
+
+function changeNumberOfPlayers(event) {
+  setPlayers(parseInt(event.target.value));
+  console.log(currentPlayer)
+}
+ 
   return (
     <>
+      <Players
+        numberOfPlayers={numberOfPlayers}
+        changePlayers={changeNumberOfPlayers}
+        players={players}
+      />
       <div className="nav">
       <h1>P A I R S</h1>
       <NewGame
@@ -141,6 +167,8 @@ function newMove () {
       <div className="ribbon">
         <NewMove 
           score={score}
+          players={players}
+          currentPlayer={currentPlayer}
         />
       </div>
       {images.length ? <Board 
