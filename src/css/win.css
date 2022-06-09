@@ -8,10 +8,10 @@
 .win {
     position:absolute;
     width:100vw;
-    top:0
+    top:25%
 }
-#attribution_block {
-    display:none
+#attribution_block, .attribution {
+    display:none !important
 }
 #win-text {
     position: absolute;

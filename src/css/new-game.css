@@ -12,3 +12,10 @@
 .score {
     text-align:center
 }
+.new-game-container {
+    display:flex;
+    align-items: center;
+}
+.player-icon {
+    cursor:pointer
+}

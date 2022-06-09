@@ -15,8 +15,9 @@ function App() {
   const [clicked, setClicked] = React.useState({});
   const [clicks, setClicks] = React.useState(1);
   const [played, setPlayed] = React.useState(false);
-  const [score, setScore] = React.useState(0);
-  const [win, setWin] = React.useState(false);
+  const [score, setScore] = React.useState({player1:0});
+  const [win, setWin] = React.useState({player1:false});
+  const [finished, setFinished] = React.useState(false)
   const [players, setPlayers] = React.useState(1);
   const [currentPlayer, setCurrentPlayer] = React.useState("player1")
 
@@ -28,8 +29,15 @@ function App() {
   function startGame() {
     setFieldLength(formFieldLength);
     setSendingRequest(old => !old);
+    setFinished(false);
     let cards = document.querySelectorAll(".card");
-    setScore(0)
+    setScore(score=>{
+      score.player1=0;
+      if (players===2) {
+        score.player2=0
+      }
+      return score
+    })
     cards.forEach((card)=>{
       card.classList.remove("played")
     })
@@ -80,11 +88,17 @@ function App() {
     }
 
     // increment score on clicked change
-    React.useLayoutEffect(()=>{
+    React.useEffect(()=>{
       let classesTrue = Object.keys(clicked).filter((k)=> clicked[k])
       let keysTrue = classesTrue.map((item)=> parseInt(item.replace("card-", "")));
       if (images[keysTrue[0]]===images[keysTrue[1]]&&images[keysTrue[0]]) {
-        setScore(score +1);
+        console.log("hi there")
+        setScore(score=> {
+          return {
+            ...score,
+            [currentPlayer]:score[currentPlayer]+1
+          }
+        });
         if ((score!==Math.pow(fieldLength, 2)/2)) {
           classesTrue.forEach((cl) => {
             let element = document.getElementById(cl);
@@ -96,10 +110,33 @@ function App() {
 
     // win
     React.useEffect(()=>{
-      console.log(score)
-      if (score===Math.pow(fieldLength, 2)/2) {
-        setWin(!win)
-      }
+      console.log(win)
+      if (players===1) {
+        if (score.player1===Math.pow(fieldLength, 2)/2) {
+          setFinished(true)
+        }
+      } else if (players===2) {
+        let gameOver = score.player1+score.player2===Math.pow(fieldLength, 2)/2
+        if (gameOver&&(score.player1>score.player2)) {
+          console.log("player 1 wins")
+          setFinished(true)
+          setWin(winObj => {
+            return {player1:true, player2:false}
+          })
+        } else if (gameOver&&(score.player1<score.player2)) {
+          console.log("player 2 wins")
+          setFinished(true)
+          setWin(winObj => {
+            return {player1:false, player2:true}
+          }  )
+        } else if (gameOver&&(score.player1===score.player2)) {
+          console.log("itie")
+          setFinished(true)
+          setWin(winObj => {
+            return {player1:true, player2:true}
+          })
+        }
+      } 
     }, [score])
 
     function flipCard (event) {
@@ -123,31 +160,34 @@ function newMove () {
     return clicked
   }) 
     if (players === 2) {
-      console.log("yep")
       setCurrentPlayer(player => {
-        console.log(player)
         if (player==="player1") {
-          console.log("player is 1")
           return "player2"
         }
           else {
             return "player1"
           } 
       })
-      console.log(currentPlayer)
     }
 }
 
 function numberOfPlayers (event) {
   let screen = document.querySelector(".players-screen");
-  screen.style.display = "none";
-  console.log(players)
+  screen.classList.add("inactive")
 }
 
 function changeNumberOfPlayers(event) {
   setPlayers(parseInt(event.target.value));
-  console.log(currentPlayer)
 }
+
+React.useEffect(()=>{
+  if (players===2) {
+    setScore(score=>{
+      score.player2=0;
+      return score
+    })
+  }
+}, [players])
  
   return (
     <>
@@ -178,9 +218,13 @@ function changeNumberOfPlayers(event) {
         flipCard={flipCard}
         played={played}
         newMove={newMove}
+        finished={finished}
         /> 
         : ''}
-      {win ? <Win/> : ""}
+      {finished ? <Win
+        players={players}
+        win={win}
+        startGame={startGame}/> : ""}
     </>
     );
 }

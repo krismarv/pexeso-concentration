@@ -63,3 +63,6 @@ input {
 .player.active {
   text-shadow:0 0 50px yellow, 0 0 20px orange, 0 0 10px white
  }
+ .inactive {
+   display:none
+ }

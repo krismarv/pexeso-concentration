@@ -29,7 +29,7 @@ export default function Board ( props) {
       
     return (
         <>
-        {props.played ? <div className="new-move" onClick={props.newMove}>
+        {props.played&&!props.finished ? <div className="new-move" onClick={props.newMove}>
             <img src={refresh}></img>
         </div> : ''}
             <div className='board' style={boardStyle}>
